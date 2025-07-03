@@ -1,25 +1,47 @@
-import { Outlet } from "react-router";
-import { MainLayoutContainer, ThemeChangeButton } from "./MainLayout.styles";
+import { Outlet, useNavigate } from "react-router";
+import {
+  FooterContainer,
+  MainLayoutContainer,
+  ThemeChangeButton,
+} from "./MainLayout.styles";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
-import { useTheme } from "../../hooks/ThemeHook";
-import { Tooltip } from "@mui/material";
+import { useTheme as useThemeHook } from "../../hooks/ThemeHook";
+import { Link, Tooltip, Typography, useTheme } from "@mui/material";
 
 export const MainLayout: React.FC = () => {
-  const { theme, setTheme } = useTheme();
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const { theme: mode, setTheme } = useThemeHook();
 
   const handleThemeChange = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(mode === "dark" ? "light" : "dark");
   };
 
   return (
     <MainLayoutContainer>
-      <Tooltip title={`Change Theme to ${theme === "dark" ? "Light" : "Dark"}`}>
+      <Tooltip title={`Change Theme to ${mode === "dark" ? "Light" : "Dark"}`}>
         <ThemeChangeButton onClick={handleThemeChange}>
-          {theme === "light" ? <Brightness7Icon /> : <Brightness4Icon />}
+          {mode === "light" ? <Brightness7Icon /> : <Brightness4Icon />}
         </ThemeChangeButton>
       </Tooltip>
       <Outlet />
+      <FooterContainer>
+        <Typography
+          variant="caption"
+          sx={{ color: theme.palette.custom.footerText }}
+        >
+          Built by{" "}
+          <Link
+            onClick={() => navigate("/user/otavio.assis")}
+            color="inherit"
+            underline="hover"
+            sx={{ cursor: "pointer" }}
+          >
+            otavio.assis
+          </Link>
+        </Typography>
+      </FooterContainer>
     </MainLayoutContainer>
   );
 };

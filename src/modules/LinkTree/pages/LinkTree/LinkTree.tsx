@@ -5,6 +5,7 @@ import { CircularProgress } from "@mui/material";
 import { UserSummary } from "../../components/UserSummary/UserSummary";
 import { LinkList } from "../../components/LinkList/LinkList";
 import { LinkTreeContainer } from "./LinkTree.styles";
+import { LinkTreeFooter } from "../../components/LinkTreeFooter/LinkTreeFooter";
 
 export const LinkTree: React.FC = () => {
   const { username } = useParams<{ username: string }>();
@@ -24,6 +25,7 @@ export const LinkTree: React.FC = () => {
     <LinkTreeContainer>
       <UserSummary />
       <LinkList />
+      <LinkTreeFooter />
     </LinkTreeContainer>
   );
 };

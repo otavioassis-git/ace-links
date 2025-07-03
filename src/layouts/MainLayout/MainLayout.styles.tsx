@@ -31,3 +31,16 @@ export const ThemeChangeButton = styled((props: IconButtonProps) => (
     {...props}
   />
 ))``;
+
+export const FooterContainer = styled((props: BoxProps) => (
+  <Box
+    sx={{
+      position: "absolute",
+      bottom: "0.5rem",
+      left: "50%",
+      transform: "translateX(-50%)",
+      zIndex: 10,
+    }}
+    {...props}
+  />
+))``;
