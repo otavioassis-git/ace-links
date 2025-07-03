@@ -23,6 +23,7 @@ export const MainPage: React.FC = () => {
       <Typography
         variant="h6"
         color="text.secondary"
+        textAlign="center"
         sx={{ maxWidth: "600px" }}
       >
         Welcome to Ace Links! The only link you'll ever need. Create your

@@ -21,7 +21,7 @@ declare module "@mui/material/styles" {
   }
 }
 
-const catppuccinMocha = {
+export const catppuccinMocha = {
   rosewater: "#f5e0dc",
   flamingo: "#f2cdcd",
   pink: "#f5c2e7",
@@ -50,7 +50,7 @@ const catppuccinMocha = {
   crust: "#11111b",
 };
 
-const catppuccinLatte = {
+export const catppuccinLatte = {
   rosewater: "#dc8a78",
   flamingo: "#dd7878",
   pink: "#ea76cb",
