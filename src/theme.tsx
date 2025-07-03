@@ -106,6 +106,7 @@ export const getTheme = (mode: "dark" | "light") => {
     },
     typography: {
       fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+      h2: { fontWeight: 800 },
       h5: { fontWeight: 700 },
       body1: { fontSize: "1.1rem" },
       button: { textTransform: "none", fontWeight: 600, fontSize: "1rem" },
