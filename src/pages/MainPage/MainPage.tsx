@@ -1,10 +1,11 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, useTheme } from "@mui/material";
 import { MainPageContainer } from "./MainPage.styles";
 import { ArrowRight } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
 export const MainPage: React.FC = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   return (
     <MainPageContainer>
@@ -21,14 +22,17 @@ export const MainPage: React.FC = () => {
         One Link to Rule Them All
       </Typography>
       <Typography
-        variant="h6"
+        variant="h5"
         color="text.secondary"
         textAlign="center"
-        sx={{ maxWidth: "600px" }}
+        fontWeight="normal"
+        lineHeight={1.5}
+        maxWidth={600}
       >
-        Welcome to Ace Links! The only link you'll ever need. Create your
-        personalized page in seconds and share all your important links with a
-        single URL.
+        Welcome to{" "}
+        <b style={{ color: theme.palette.primary.main }}>Ace Links!</b> The only
+        link you'll ever need. Create your personalized page in seconds and
+        share all your important links with a single URL.
       </Typography>
       <Button
         variant="contained"
