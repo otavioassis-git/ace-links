@@ -19,7 +19,12 @@ export const LinkTree: React.FC = () => {
 
   if (isError || data?.links.length === 0) return <Navigate to="/404" />;
 
-  if (isLoading) return <CircularProgress color="primary" />;
+  if (isLoading)
+    return (
+      <LinkTreeContainer>
+        <CircularProgress color="primary" />
+      </LinkTreeContainer>
+    );
 
   return (
     <LinkTreeContainer>
