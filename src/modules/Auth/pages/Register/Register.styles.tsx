@@ -1,10 +1,5 @@
 import styled from "@emotion/styled";
-import {
-  Box,
-  FormControl,
-  type BoxProps,
-  type FormControlProps,
-} from "@mui/material";
+import { Box, type BoxProps } from "@mui/material";
 
 export const FormContainer = styled.form`
   display: flex;
