@@ -7,6 +7,11 @@ import { Button, IconButton, InputAdornment } from "@mui/material";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "../../../../hooks/ToastHook";
+import { AuthRepository } from "../../repositories";
+import { useNavigate } from "react-router";
+import type { AxiosError } from "axios";
 
 export const registerSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -16,6 +21,8 @@ export const registerSchema = z.object({
 export type TRegisterSchema = z.infer<typeof registerSchema>;
 
 export const LoginForm: React.FC = () => {
+  const navigate = useNavigate();
+  const { setToast } = useToast();
   const {
     register,
     handleSubmit,
@@ -25,8 +32,36 @@ export const LoginForm: React.FC = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
 
+  const { mutate: loginUser, isPending: isLoading } = useMutation({
+    mutationFn: async (data: TRegisterSchema) =>
+      await AuthRepository.loginUser(data),
+    onSuccess: (response) => {
+      setToast({
+        title: "Login successful",
+        type: "success",
+      });
+      sessionStorage.setItem("user", JSON.stringify(response));
+      navigate(`/user/${response.username}`);
+    },
+    onError: (error: AxiosError) => {
+      if (error.code === "ERR_BAD_REQUEST") {
+        setToast({
+          title: "Login failed",
+          message: "Verify your credentials and try again",
+          type: "error",
+        });
+      } else {
+        setToast({
+          title: "Login failed",
+          message: "Please try again later",
+          type: "error",
+        });
+      }
+    },
+  });
+
   const onSubmit = (data: TRegisterSchema) => {
-    console.log(data);
+    loginUser(data);
   };
 
   return (
@@ -66,7 +101,7 @@ export const LoginForm: React.FC = () => {
         variant="contained"
         color="primary"
         sx={{ width: ["100%", "50%"], mt: 1.5 }}
-        // loading={isLoading}
+        loading={isLoading}
       >
         Sign in
       </Button>
