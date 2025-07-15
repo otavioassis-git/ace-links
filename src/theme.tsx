@@ -6,6 +6,7 @@ declare module "@mui/material/styles" {
       accents: string[];
       buttonText: string;
       avatarBorder: string;
+      avatarBackground: string;
       handleText: string;
       footerText: string;
     };
@@ -15,6 +16,7 @@ declare module "@mui/material/styles" {
       accents?: string[];
       buttonText?: string;
       avatarBorder?: string;
+      avatarBackground?: string;
       handleText?: string;
       footerText?: string;
     };
@@ -100,6 +102,7 @@ export const getTheme = (mode: "dark" | "light") => {
         buttonText:
           mode === "dark" ? catppuccinMocha.base : catppuccinLatte.base,
         avatarBorder: palette.surface2,
+        avatarBackground: palette.base,
         handleText: palette.subtext0,
         footerText: palette.overlay1,
       },
