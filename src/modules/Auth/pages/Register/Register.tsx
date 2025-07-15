@@ -8,11 +8,15 @@ import { FormTextField } from "../../../../components/Form/FormTextField/FormTex
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useMutation } from "@tanstack/react-query";
+import { AuthRepository } from "../../repositories";
+import { useNavigate } from "react-router";
+import { useToast } from "../../../../hooks/ToastHook";
 
 export const registerSchema = z
   .object({
-    firstName: z.string().min(1, { message: "First name is required" }),
-    lastName: z.string().min(1, { message: "Last name is required" }),
+    name: z.string().min(1, { message: "First name is required" }),
+    surname: z.string().min(1, { message: "Last name is required" }),
     username: z
       .string()
       .min(3, { message: "Username must be at least 3 characters long" }),
@@ -33,10 +37,12 @@ export const registerSchema = z
 export type TRegisterSchema = z.infer<typeof registerSchema>;
 
 export const Register: React.FC = () => {
+  const navigate = useNavigate();
+  const { setToast } = useToast();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<TRegisterSchema>({
     resolver: zodResolver(registerSchema),
   });
@@ -46,9 +52,29 @@ export const Register: React.FC = () => {
     confirmPassword: false,
   });
 
+  const { mutate: registerUser, isPending: isLoading } = useMutation({
+    mutationFn: async (data: RegisterRequest) =>
+      await AuthRepository.registerUser(data),
+    onSuccess: (response) => {
+      setToast({
+        title: "Account registered successfully",
+        type: "success",
+      });
+      sessionStorage.setItem("user", JSON.stringify(response));
+      navigate(`/user/${response.username}`);
+    },
+    onError: () =>
+      setToast({
+        title: "Error creating account",
+        message: "Please try again later",
+        type: "error",
+      }),
+  });
+
   const onSubmit: SubmitHandler<TRegisterSchema> = async (data) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(data);
+    const { confirmPassword, ...payload } = data;
+    console.log({ ...payload, role: "USER" });
+    registerUser({ ...payload, role: "USER" });
   };
 
   return (
@@ -58,14 +84,14 @@ export const Register: React.FC = () => {
       </Typography>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <FormTextField
-          id="firstName"
+          id="name"
           register={register}
           errors={errors}
           label="First Name"
           variant="outlined"
         />
         <FormTextField
-          id="lastName"
+          id="surname"
           register={register}
           errors={errors}
           label="Last Name"
@@ -154,7 +180,7 @@ export const Register: React.FC = () => {
           variant="contained"
           color="primary"
           sx={{ width: ["100%", "50%"], mt: 1.5 }}
-          loading={isSubmitting}
+          loading={isLoading}
         >
           Sign up
         </Button>
