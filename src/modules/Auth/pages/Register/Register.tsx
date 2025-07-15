@@ -92,7 +92,15 @@ export const Register: React.FC = () => {
           Create your account
         </Typography>
         <Typography variant="caption">
-          Or <Link href="/login">login</Link> with your existing account
+          Or{" "}
+          <Link
+            onClick={() => navigate("/login")}
+            underline="hover"
+            sx={{ cursor: "pointer" }}
+          >
+            login
+          </Link>{" "}
+          with your existing account
         </Typography>
       </Box>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
