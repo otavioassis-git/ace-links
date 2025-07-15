@@ -3,6 +3,7 @@ import { MainLayout } from "./layouts/MainLayout/MainLayout";
 import { MainPage } from "./pages/MainPage/MainPage";
 import { NotFound } from "./pages/NotFound/NotFound";
 import { LinkTreeRouter } from "./modules/LinkTree/routes/LinkTree.router";
+import { AuthRouter } from "./modules/Auth/routes/Auth.router";
 
 export const Router: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ export const Router: React.FC = () => {
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<MainPage />} />
           {LinkTreeRouter}
+          {AuthRouter}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
