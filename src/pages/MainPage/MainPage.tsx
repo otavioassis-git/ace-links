@@ -9,6 +9,7 @@ export const MainPage: React.FC = () => {
 
   return (
     <MainPageContainer>
+      <img src="/icon.png" alt="Ace Links Logo" width="100" />
       <Typography
         variant="h2"
         component="h1"
@@ -40,7 +41,7 @@ export const MainPage: React.FC = () => {
         size="large"
         endIcon={<ArrowRight />}
         sx={{ padding: "15px 30px", fontSize: "1.2rem" }}
-        onClick={() => navigate("/login")}
+        onClick={() => navigate("/register")}
       >
         Get Started for Free
       </Button>

@@ -4,8 +4,8 @@ import { Navigate, useParams } from "react-router";
 import { CircularProgress } from "@mui/material";
 import { UserSummary } from "../../components/UserSummary/UserSummary";
 import { LinkList } from "../../components/LinkList/LinkList";
-import { LinkTreeContainer } from "./LinkTree.styles";
 import { LinkTreeFooter } from "../../components/LinkTreeFooter/LinkTreeFooter";
+import { CenteredContainer } from "../../../../components/Styles/CenteredContainer.styles";
 
 export const LinkTree: React.FC = () => {
   const { username } = useParams<{ username: string }>();
@@ -21,16 +21,16 @@ export const LinkTree: React.FC = () => {
 
   if (isLoading)
     return (
-      <LinkTreeContainer>
+      <CenteredContainer>
         <CircularProgress color="primary" />
-      </LinkTreeContainer>
+      </CenteredContainer>
     );
 
   return (
-    <LinkTreeContainer>
+    <CenteredContainer>
       <UserSummary />
       <LinkList />
       <LinkTreeFooter />
-    </LinkTreeContainer>
+    </CenteredContainer>
   );
 };
