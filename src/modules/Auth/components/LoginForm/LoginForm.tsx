@@ -12,6 +12,7 @@ import { useToast } from "../../../../hooks/ToastHook";
 import { AuthRepository } from "../../repositories";
 import { useNavigate } from "react-router";
 import type { AxiosError } from "axios";
+import { useLogin } from "../../../../hooks/LoginHook";
 
 export const registerSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -23,6 +24,7 @@ export type TRegisterSchema = z.infer<typeof registerSchema>;
 export const LoginForm: React.FC = () => {
   const navigate = useNavigate();
   const { setToast } = useToast();
+  const { setUser } = useLogin();
   const {
     register,
     handleSubmit,
@@ -40,7 +42,7 @@ export const LoginForm: React.FC = () => {
         title: "Login successful",
         type: "success",
       });
-      sessionStorage.setItem("user", JSON.stringify(response));
+      setUser(response);
       navigate(`/user/${response.username}`);
     },
     onError: (error: AxiosError) => {

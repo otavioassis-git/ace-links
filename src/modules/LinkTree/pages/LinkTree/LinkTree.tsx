@@ -8,12 +8,11 @@ import { LinkTreeFooter } from "../../components/LinkTreeFooter/LinkTreeFooter";
 import { CenteredContainer } from "../../../../components/Styles/CenteredContainer.styles";
 import { useEffect } from "react";
 import { NotFound } from "../../../../pages/NotFound/NotFound";
+import { useLogin } from "../../../../hooks/LoginHook";
 
 export const LinkTree: React.FC = () => {
   const { username } = useParams<{ username: string }>();
-  const user: User | undefined = sessionStorage.getItem("user")
-    ? JSON.parse(sessionStorage.getItem("user")!)
-    : undefined;
+  const { user } = useLogin();
 
   if (!username) return <Navigate to="/" />;
 

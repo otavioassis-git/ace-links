@@ -19,6 +19,7 @@ import { AuthRepository } from "../../repositories";
 import { useNavigate } from "react-router";
 import { useToast } from "../../../../hooks/ToastHook";
 import { FormContainer } from "../../../../components/Form/Form.styles";
+import { useLogin } from "../../../../hooks/LoginHook";
 
 export const registerSchema = z
   .object({
@@ -46,6 +47,7 @@ export type TRegisterSchema = z.infer<typeof registerSchema>;
 export const Register: React.FC = () => {
   const navigate = useNavigate();
   const { setToast } = useToast();
+  const { setUser } = useLogin();
   const {
     register,
     handleSubmit,
@@ -67,7 +69,7 @@ export const Register: React.FC = () => {
         title: "Account registered successfully",
         type: "success",
       });
-      sessionStorage.setItem("user", JSON.stringify(response));
+      setUser(response);
       navigate(`/user/${response.username}`);
     },
     onError: () =>

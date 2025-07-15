@@ -1,8 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type LoginContextProps = {
   user?: User;
-  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+  setUser: (value?: User) => void;
 };
 
 const LoginContext = createContext<LoginContextProps>({} as LoginContextProps);
@@ -10,7 +10,20 @@ const LoginContext = createContext<LoginContextProps>({} as LoginContextProps);
 export const LoginProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<User>();
+  const [user, setUserState] = useState<User>();
+
+  useEffect(() => {
+    const user = sessionStorage.getItem("user");
+    if (user) {
+      setUserState(JSON.parse(user));
+    }
+  }, []);
+
+  const setUser = (value?: User) => {
+    if (!value) sessionStorage.removeItem("user");
+    else sessionStorage.setItem("user", JSON.stringify(value));
+    setUserState(value);
+  };
 
   return (
     <LoginContext.Provider value={{ user, setUser }}>
