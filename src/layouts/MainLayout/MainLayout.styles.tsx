@@ -24,8 +24,20 @@ export const ThemeChangeButton = styled((props: IconButtonProps) => (
   <IconButton
     sx={{
       position: "absolute",
-      top: "1rem",
-      right: "1rem",
+      top: "0.75rem",
+      left: "0.75rem",
+      zIndex: 10,
+    }}
+    {...props}
+  />
+))``;
+
+export const UserContainer = styled((props: BoxProps) => (
+  <Box
+    sx={{
+      position: "absolute",
+      top: "0.25rem",
+      right: "0.25rem",
       zIndex: 10,
     }}
     {...props}

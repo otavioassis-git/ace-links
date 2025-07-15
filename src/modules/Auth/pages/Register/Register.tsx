@@ -1,6 +1,12 @@
-import { Button, IconButton, InputAdornment, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Link,
+  Typography,
+} from "@mui/material";
 import { CenteredContainer } from "../../../../components/Styles/CenteredContainer.styles";
-import { FormContainer } from "./Register.styles";
 import { z } from "zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +18,8 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthRepository } from "../../repositories";
 import { useNavigate } from "react-router";
 import { useToast } from "../../../../hooks/ToastHook";
+import { FormContainer } from "../../../../components/Form/Form.styles";
+import { useLogin } from "../../../../hooks/LoginHook";
 
 export const registerSchema = z
   .object({
@@ -39,6 +47,7 @@ export type TRegisterSchema = z.infer<typeof registerSchema>;
 export const Register: React.FC = () => {
   const navigate = useNavigate();
   const { setToast } = useToast();
+  const { setUser } = useLogin();
   const {
     register,
     handleSubmit,
@@ -60,7 +69,7 @@ export const Register: React.FC = () => {
         title: "Account registered successfully",
         type: "success",
       });
-      sessionStorage.setItem("user", JSON.stringify(response));
+      setUser(response);
       navigate(`/user/${response.username}`);
     },
     onError: () =>
@@ -73,15 +82,27 @@ export const Register: React.FC = () => {
 
   const onSubmit: SubmitHandler<TRegisterSchema> = async (data) => {
     const { confirmPassword, ...payload } = data;
-    console.log({ ...payload, role: "USER" });
     registerUser({ ...payload, role: "USER" });
   };
 
   return (
     <CenteredContainer>
-      <Typography variant="h4" component="h1">
-        Create your account
-      </Typography>
+      <Box sx={{ textAlign: "center" }}>
+        <Typography variant="h4" fontWeight="bold">
+          Create your account
+        </Typography>
+        <Typography variant="caption">
+          Or{" "}
+          <Link
+            onClick={() => navigate("/login")}
+            underline="hover"
+            sx={{ cursor: "pointer" }}
+          >
+            login
+          </Link>{" "}
+          with your existing account
+        </Typography>
+      </Box>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <FormTextField
           id="name"

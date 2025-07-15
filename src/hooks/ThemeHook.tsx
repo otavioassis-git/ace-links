@@ -1,8 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type ThemeContextProps = {
   theme: Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
+  setTheme: (mode: Theme) => void;
 };
 
 const ThemeContext = createContext<ThemeContextProps>({} as ThemeContextProps);
@@ -10,7 +10,21 @@ const ThemeContext = createContext<ThemeContextProps>({} as ThemeContextProps);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setThemeState] = useState<Theme>("dark");
+
+  useEffect(() => {
+    const theme = sessionStorage.getItem("theme");
+    if (theme) {
+      setThemeState(theme as Theme);
+    } else {
+      sessionStorage.setItem("theme", "dark");
+    }
+  }, []);
+
+  const setTheme = (mode: Theme) => {
+    sessionStorage.setItem("theme", mode);
+    setThemeState(mode);
+  };
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
