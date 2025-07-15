@@ -22,10 +22,13 @@ export const registerSchema = z
       .min(8, { message: "Password must be at least 8 characters long" }),
     confirmPassword: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+  .refine(
+    (data) => data.confirmPassword && data.password === data.confirmPassword,
+    {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    }
+  );
 
 export type TRegisterSchema = z.infer<typeof registerSchema>;
 
@@ -45,7 +48,7 @@ export const Register: React.FC = () => {
 
   const onSubmit: SubmitHandler<TRegisterSchema> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Form submitted successfully!", data);
+    console.log(data);
   };
 
   return (
@@ -148,10 +151,10 @@ export const Register: React.FC = () => {
         />
         <Button
           type="submit"
-          disabled={isSubmitting}
           variant="contained"
           color="primary"
-          sx={{ width: ["100%", "50%"] }}
+          sx={{ width: ["100%", "50%"], mt: 1.5 }}
+          loading={isSubmitting}
         >
           Sign up
         </Button>
