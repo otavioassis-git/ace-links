@@ -21,7 +21,7 @@ import { useToast } from "../../../../hooks/ToastHook";
 import { FormContainer } from "../../../../components/Form/Form.styles";
 import { useLogin } from "../../../../hooks/LoginHook";
 
-export const registerSchema = z
+const registerSchema = z
   .object({
     name: z.string().min(1, { message: "First name is required" }),
     surname: z.string().min(1, { message: "Last name is required" }),
