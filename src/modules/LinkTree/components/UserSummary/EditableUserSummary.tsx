@@ -60,6 +60,7 @@ export const EditableUserSummary: React.FC = () => {
         size="small"
         sx={{
           ".MuiFilledInput-input": {
+            pt: 0.5,
             textAlign: "center",
             fontSize: "1.5rem",
             fontWeight: "bold",
@@ -67,7 +68,9 @@ export const EditableUserSummary: React.FC = () => {
         }}
         slotProps={{
           input: {
-            endAdornment: <EditIcon sx={{ position: "absolute", right: 0 }} />,
+            endAdornment: (
+              <EditIcon sx={{ position: "absolute", right: "1rem" }} />
+            ),
           },
         }}
       />
@@ -85,6 +88,7 @@ export const EditableUserSummary: React.FC = () => {
         size="small"
         sx={{
           ".MuiFilledInput-input": {
+            pt: 0.5,
             textAlign: "center",
             fontSize: "0.875rem",
             color: theme.palette.text.secondary,
@@ -92,7 +96,9 @@ export const EditableUserSummary: React.FC = () => {
         }}
         slotProps={{
           input: {
-            endAdornment: <EditIcon sx={{ position: "absolute", right: 0 }} />,
+            endAdornment: (
+              <EditIcon sx={{ position: "absolute", right: "1rem" }} />
+            ),
           },
         }}
       />
