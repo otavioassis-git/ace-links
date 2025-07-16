@@ -8,7 +8,8 @@ type Link = {
 };
 
 type LinksResponse = {
-  fullname: string;
+  id: string;
+  name: string;
   username: string;
   avatar: string;
   description: string;

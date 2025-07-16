@@ -30,10 +30,10 @@ export const UserSummary: React.FC = () => {
           color: theme.palette.text.primary,
         }}
       >
-        {getInitials(data.fullname)}
+        {getInitials(data.name)}
       </Avatar>
       <Typography variant="h5" color="text.primary">
-        {data.fullname}
+        {data.name}
       </Typography>
       <Typography
         variant="body1"
