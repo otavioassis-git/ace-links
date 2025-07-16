@@ -66,13 +66,6 @@ export const EditableUserSummary: React.FC = () => {
             fontWeight: "bold",
           },
         }}
-        slotProps={{
-          input: {
-            endAdornment: (
-              <EditIcon sx={{ position: "absolute", right: "1rem" }} />
-            ),
-          },
-        }}
       />
       <Typography
         variant="body1"
@@ -92,13 +85,6 @@ export const EditableUserSummary: React.FC = () => {
             textAlign: "center",
             fontSize: "0.875rem",
             color: theme.palette.text.secondary,
-          },
-        }}
-        slotProps={{
-          input: {
-            endAdornment: (
-              <EditIcon sx={{ position: "absolute", right: "1rem" }} />
-            ),
           },
         }}
       />

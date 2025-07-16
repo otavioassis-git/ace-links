@@ -85,20 +85,25 @@ export const MainLayout: React.FC = () => {
         >
           {user
             ? [
-                user.username !== username && (
+                user.username !== username ||
+                  (location.pathname.includes("/edit") && (
+                    <MenuItem
+                      key="see-profile-menu"
+                      onClick={() => handleNavigate(`/user/${user?.username}`)}
+                    >
+                      <Typography variant="body1">See Profile</Typography>
+                    </MenuItem>
+                  )),
+                !location.pathname.includes("/edit") && (
                   <MenuItem
-                    key="see-profile-menu"
-                    onClick={() => handleNavigate(`/user/${user?.username}`)}
+                    key="edit-profile-menu"
+                    onClick={() =>
+                      handleNavigate(`/user/${user?.username}/edit`)
+                    }
                   >
-                    <Typography variant="body1">See Profile</Typography>
+                    <Typography variant="body1">Edit Profile</Typography>
                   </MenuItem>
                 ),
-                <MenuItem
-                  key="edit-profile-menu"
-                  onClick={() => handleNavigate(`/user/${user?.username}/edit`)}
-                >
-                  <Typography variant="body1">Edit Profile</Typography>
-                </MenuItem>,
                 <MenuItem key="logout-menu" onClick={handleLogout}>
                   <Typography variant="body1">Logout</Typography>
                 </MenuItem>,

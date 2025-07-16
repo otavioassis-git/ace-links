@@ -34,6 +34,8 @@ export const LinkTree: React.FC = () => {
 
   if (isError) return <Navigate to="/404" />;
 
+  if (!data) return null;
+
   if (data?.links.length === 0 && user?.username !== username) {
     return <NotFound />;
   }
