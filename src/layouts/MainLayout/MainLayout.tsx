@@ -83,34 +83,40 @@ export const MainLayout: React.FC = () => {
             },
           }}
         >
-          {user ? (
-            <>
-              {user.username !== username && (
+          {user
+            ? [
+                user.username !== username && (
+                  <MenuItem
+                    key="see-profile-menu"
+                    onClick={() => handleNavigate(`/user/${user?.username}`)}
+                  >
+                    <Typography variant="body1">See Profile</Typography>
+                  </MenuItem>
+                ),
                 <MenuItem
-                  onClick={() => handleNavigate(`/user/${user?.username}`)}
+                  key="edit-profile-menu"
+                  onClick={() => handleNavigate(`/user/${user?.username}/edit`)}
                 >
-                  <Typography variant="body1">See Profile</Typography>
-                </MenuItem>
-              )}
-              <MenuItem
-                onClick={() => handleNavigate(`/user/${user?.username}/edit`)}
-              >
-                <Typography variant="body1">Edit Profile</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleLogout}>
-                <Typography variant="body1">Logout</Typography>
-              </MenuItem>
-            </>
-          ) : (
-            <>
-              <MenuItem onClick={() => handleNavigate("/")}>
-                <Typography variant="body1">Regsiter</Typography>
-              </MenuItem>
-              <MenuItem onClick={() => handleNavigate("/login")}>
-                <Typography variant="body1">Login</Typography>
-              </MenuItem>
-            </>
-          )}
+                  <Typography variant="body1">Edit Profile</Typography>
+                </MenuItem>,
+                <MenuItem key="logout-menu" onClick={handleLogout}>
+                  <Typography variant="body1">Logout</Typography>
+                </MenuItem>,
+              ]
+            : [
+                <MenuItem
+                  key="register-menu"
+                  onClick={() => handleNavigate("/")}
+                >
+                  <Typography variant="body1">Regsiter</Typography>
+                </MenuItem>,
+                <MenuItem
+                  key="login-menu"
+                  onClick={() => handleNavigate("/login")}
+                >
+                  <Typography variant="body1">Login</Typography>
+                </MenuItem>,
+              ]}
         </Menu>
       </UserContainer>
       <Outlet />
