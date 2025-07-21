@@ -20,6 +20,7 @@ import {
 } from "@dnd-kit/sortable";
 import { SortableLinkItem } from "../SortableLinkItem/SortableLinkItem";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { EditLinkDialog } from "../EditLinkDialog/EditLinkDialog";
 
 export const EditableLinkList: React.FC = () => {
@@ -34,7 +35,7 @@ export const EditableLinkList: React.FC = () => {
 
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
-  function handleDragEnd(event: DragEndEvent) {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
@@ -55,11 +56,26 @@ export const EditableLinkList: React.FC = () => {
         };
       });
     }
-  }
+  };
 
   const openEditLinkDialogHandler = (link: Link) => {
     setSelectedLink(link);
     setOpenEditLinkDialog(true);
+  };
+
+  const deleteLinkHandler = (link: Link) => {
+    setData((oldData) => {
+      if (!oldData) return undefined;
+      return {
+        ...oldData,
+        links: oldData.links.map((oldLink) => {
+          if (oldLink.id === link.id) {
+            return { ...oldLink, delete: true };
+          }
+          return oldLink;
+        }),
+      };
+    });
   };
 
   return (
@@ -74,17 +90,23 @@ export const EditableLinkList: React.FC = () => {
           strategy={verticalListSortingStrategy}
         >
           <StyledList>
-            {links.map((link, index) => (
-              <SortableLinkItem
-                key={`edit-link-button-${index}`}
-                index={index}
-                link={link}
-              >
-                <IconButton onClick={() => openEditLinkDialogHandler(link)}>
-                  <EditIcon />
-                </IconButton>
-              </SortableLinkItem>
-            ))}
+            {links.map(
+              (link, index) =>
+                !link.delete && (
+                  <SortableLinkItem
+                    key={`edit-link-button-${index}`}
+                    index={index}
+                    link={link}
+                  >
+                    <IconButton onClick={() => deleteLinkHandler(link)}>
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton onClick={() => openEditLinkDialogHandler(link)}>
+                      <EditIcon />
+                    </IconButton>
+                  </SortableLinkItem>
+                )
+            )}
           </StyledList>
         </SortableContext>
       </DndContext>

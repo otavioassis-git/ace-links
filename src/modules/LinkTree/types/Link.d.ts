@@ -6,6 +6,7 @@ type Link = {
   background?: string;
   icon?: string;
   description?: string;
+  delete?: boolean;
 };
 
 type LinksResponse = {
@@ -15,4 +16,13 @@ type LinksResponse = {
   avatar: string;
   description: string;
   links: Link[];
+};
+
+type UpdateUserLinksRequestLinks = Omit<Link, "id"> & {
+  id: string | null;
+};
+
+type UpdateUserLinksRequest = {
+  description: string;
+  links: UpdateUserLinksRequestLinks[];
 };
