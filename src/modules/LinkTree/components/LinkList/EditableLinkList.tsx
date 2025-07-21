@@ -20,10 +20,13 @@ import {
 } from "@dnd-kit/sortable";
 import { SortableLinkItem } from "../SortableLinkItem/SortableLinkItem";
 import EditIcon from "@mui/icons-material/Edit";
+import { EditLinkDialog } from "../EditLinkDialog/EditLinkDialog";
 
 export const EditableLinkList: React.FC = () => {
   const { data } = useEditableLinkTree();
   const [openAddLinkDialog, setOpenAddLinkDialog] = useState(false);
+  const [openEditLinkDialog, setOpenEditLinkDialog] = useState(false);
+  const [selectedLink, setSelectedLink] = useState<Link>();
 
   if (!data) return null;
 
@@ -51,6 +54,11 @@ export const EditableLinkList: React.FC = () => {
     }
   }
 
+  const openEditLinkDialogHandler = (link: Link) => {
+    setSelectedLink(link);
+    setOpenEditLinkDialog(true);
+  };
+
   return (
     <LinkListContainer>
       <DndContext
@@ -69,7 +77,7 @@ export const EditableLinkList: React.FC = () => {
                 index={index}
                 link={link}
               >
-                <IconButton>
+                <IconButton onClick={() => openEditLinkDialogHandler(link)}>
                   <EditIcon />
                 </IconButton>
               </SortableLinkItem>
@@ -84,6 +92,13 @@ export const EditableLinkList: React.FC = () => {
       >
         Add link
       </Button>
+      {selectedLink && (
+        <EditLinkDialog
+          open={openEditLinkDialog}
+          onClose={() => setOpenEditLinkDialog(false)}
+          link={selectedLink}
+        />
+      )}
       <AddLinkDialog
         open={openAddLinkDialog}
         onClose={() => setOpenAddLinkDialog(false)}
