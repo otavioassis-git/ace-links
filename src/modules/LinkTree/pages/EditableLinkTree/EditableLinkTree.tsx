@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { CircularProgress } from "@mui/material";
 import { useEditableLinkTree } from "../../hooks/EditableLinkTreeHook";
 import { EditableLinkList } from "../../components/LinkList/EditableLinkList";
+import { EditableLinkTreeFooter } from "../../components/LinkTreeFooter/EditableLinkTreeFooter";
 
 export const EditableLinkTree: React.FC = () => {
   const { username } = useParams<{ username: string }>();
@@ -47,6 +48,7 @@ export const EditableLinkTree: React.FC = () => {
     <CenteredContainer>
       <EditableUserSummary />
       <EditableLinkList />
+      <EditableLinkTreeFooter />
     </CenteredContainer>
   );
 };
