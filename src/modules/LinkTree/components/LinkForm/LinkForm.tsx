@@ -107,7 +107,7 @@ export const LinkForm: React.FC<LinkFormProps> = ({ link, setLink }) => {
           sx={{ width: "100%" }}
           options={uniqueIconNames}
           onChange={(_, data) => {
-            setLink({ ...link, icon: data ?? undefined });
+            setLink({ ...link, icon: data });
           }}
           value={link.icon}
           renderOption={(props, option) => (
@@ -138,7 +138,7 @@ export const LinkForm: React.FC<LinkFormProps> = ({ link, setLink }) => {
           sx={{ width: "100%" }}
           options={allColors}
           onChange={(_, data) => {
-            setLink({ ...link, background: data ?? undefined });
+            setLink({ ...link, background: data });
           }}
           value={link.background}
           renderOption={(props, option) => (

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 type EditableLinkTreeContextProps = {
   data?: LinksResponse;
@@ -13,10 +13,6 @@ export const EditableLinkTreeProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [data, setData] = useState<LinksResponse>();
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <EditableLinkTreeContext.Provider value={{ data, setData }}>

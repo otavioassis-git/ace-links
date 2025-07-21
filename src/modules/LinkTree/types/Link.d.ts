@@ -3,8 +3,8 @@ type Link = {
   title: string;
   url: string;
   rank: number;
-  background?: string;
-  icon?: string;
+  background?: string | null;
+  icon?: string | null;
   description?: string;
   delete?: boolean;
 };

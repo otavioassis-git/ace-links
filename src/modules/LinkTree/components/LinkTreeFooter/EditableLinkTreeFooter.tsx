@@ -19,6 +19,8 @@ export const EditableLinkTreeFooter: React.FC = () => {
   const { mutate: saveChanges, isPending: isLoading } = useMutation({
     mutationFn: async () => {
       const payload = {
+        name: data.name.split(" ")[0],
+        surname: data.name.split(" ").slice(1).join(" "),
         description: data.description,
         links: data.links.map((link) => {
           return {
