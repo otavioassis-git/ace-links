@@ -6,21 +6,51 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { LinkForm } from "../LinkForm/LinkForm";
+import { useEffect, useState } from "react";
+import { useEditableLinkTree } from "../../hooks/EditableLinkTreeHook";
 
 type AddLinkDialogProps = {
   open: boolean;
   onClose: () => void;
 };
 
+const initialLink: Link = {
+  id: "",
+  title: "Link Name",
+  url: "",
+  rank: 0,
+  background: "",
+  icon: "",
+  description: "",
+};
+
 export const AddLinkDialog: React.FC<AddLinkDialogProps> = ({
   open,
   onClose,
 }) => {
+  const [link, setLink] = useState<Link>({ ...initialLink });
+  const { setData } = useEditableLinkTree();
+
+  useEffect(() => {
+    if (open) setLink({ ...initialLink });
+  }, [open]);
+
+  const onAdd = () => {
+    setData((oldData) => {
+      if (!oldData) return undefined;
+      return {
+        ...oldData,
+        links: [...oldData.links, { ...link, id: `new-link-${link.title}` }],
+      };
+    });
+    onClose();
+  };
+
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Add Link</DialogTitle>
       <DialogContent>
-        <LinkForm />
+        <LinkForm link={link} setLink={setLink} />
       </DialogContent>
       <DialogActions>
         <Button
@@ -36,7 +66,7 @@ export const AddLinkDialog: React.FC<AddLinkDialogProps> = ({
         </Button>
         <Button
           variant="contained"
-          onClick={onClose}
+          onClick={onAdd}
           sx={{
             "&:hover": {
               transform: "none !important",

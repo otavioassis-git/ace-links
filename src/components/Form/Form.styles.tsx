@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Box, type BoxProps } from "@mui/material";
 
 export const FormContainer = styled.form`
   display: flex;
@@ -7,3 +8,7 @@ export const FormContainer = styled.form`
   gap: 1rem;
   width: 100%;
 `;
+
+export const DoubleFieldContainer = styled((props: BoxProps) => (
+  <Box sx={{ display: "flex", flexDirection: "column", gap: 1, ...props }} />
+))``;

@@ -3,7 +3,7 @@ import { LinkListContainer, StyledList } from "./LinkList.styles";
 import AddIcon from "@mui/icons-material/Add";
 import { useEditableLinkTree } from "../../hooks/EditableLinkTreeHook";
 import { AddLinkDialog } from "../AddLinkDialog/AddLinkDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -29,15 +29,16 @@ export const EditableLinkList: React.FC = () => {
 
   const { links: initialLinks } = data;
 
+  useEffect(() => {
+    setLinks(data.links);
+  }, [data]);
+
   const [links, setLinks] = useState(structuredClone(initialLinks));
 
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
-
-    console.log("inside handleDragEnd");
-    console.log(active, over);
 
     if (over && active.id !== over.id) {
       setLinks((currentLinks) => {

@@ -6,7 +6,6 @@ import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormTextField } from "../../../../components/Form/FormTextField/FormTextField";
-import EditIcon from "@mui/icons-material/Edit";
 
 const registerSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -28,6 +27,7 @@ export const EditableUserSummary: React.FC = () => {
   } = useForm<TRegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: data,
+    shouldFocusError: false,
   });
 
   const onChange = (data: TRegisterSchema) => {

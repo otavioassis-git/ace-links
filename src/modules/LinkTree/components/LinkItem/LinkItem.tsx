@@ -13,6 +13,7 @@ export const LinkItem: React.FC<LinkItemProps> = ({
   link,
   index,
   noRedirect,
+  sx,
 }) => {
   const theme = useTheme();
   const { theme: mode } = useThemeHook();
@@ -31,6 +32,7 @@ export const LinkItem: React.FC<LinkItemProps> = ({
       href={noRedirect ? undefined : link.url}
       startIcon={link.icon ? <IconComponent icon={link.icon} /> : null}
       sx={{
+        ...sx,
         backgroundColor: link.background
           ? getBackgroundColor(link.background as keyof typeof catppuccinMocha)
           : accentColors[index % accentColors.length],
