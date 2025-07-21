@@ -3,7 +3,7 @@ import { LinkListContainer, StyledList } from "./LinkList.styles";
 import AddIcon from "@mui/icons-material/Add";
 import { useEditableLinkTree } from "../../hooks/EditableLinkTreeHook";
 import { AddLinkDialog } from "../AddLinkDialog/AddLinkDialog";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -23,20 +23,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import { EditLinkDialog } from "../EditLinkDialog/EditLinkDialog";
 
 export const EditableLinkList: React.FC = () => {
-  const { data } = useEditableLinkTree();
+  const { data, setData } = useEditableLinkTree();
   const [openAddLinkDialog, setOpenAddLinkDialog] = useState(false);
   const [openEditLinkDialog, setOpenEditLinkDialog] = useState(false);
   const [selectedLink, setSelectedLink] = useState<Link>();
 
   if (!data) return null;
 
-  const { links: initialLinks } = data;
-
-  useEffect(() => {
-    setLinks(data.links);
-  }, [data]);
-
-  const [links, setLinks] = useState(structuredClone(initialLinks));
+  const { links } = data;
 
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
@@ -44,12 +38,21 @@ export const EditableLinkList: React.FC = () => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      setLinks((currentLinks) => {
+      setData((oldData) => {
+        if (!oldData) return undefined;
+        const currentLinks = oldData.links;
         const oldIndex = currentLinks.findIndex(
           (item) => item.id === active.id
         );
         const newIndex = currentLinks.findIndex((item) => item.id === over.id);
-        return arrayMove(currentLinks, oldIndex, newIndex);
+        return {
+          ...oldData,
+          links: arrayMove(oldData.links, oldIndex, newIndex).map(
+            (link, index) => {
+              return { ...link, rank: index + 1 };
+            }
+          ),
+        };
       });
     }
   }
