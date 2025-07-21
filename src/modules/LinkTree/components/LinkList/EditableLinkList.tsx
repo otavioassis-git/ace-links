@@ -1,69 +1,92 @@
-import { Button, IconButton, useTheme } from "@mui/material";
-import { useTheme as useThemeHook } from "../../../../hooks/ThemeHook";
-import { catppuccinLatte, catppuccinMocha } from "../../../../theme";
-import { IconComponent } from "../../../../components/IconComponent/IconComponent";
-import { EditSectionContainer, LinkListContainer } from "./LinkList.styles";
+import { Button, IconButton } from "@mui/material";
+import { LinkListContainer, StyledList } from "./LinkList.styles";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DragHandleIcon from "@mui/icons-material/DragHandle";
 import { useEditableLinkTree } from "../../hooks/EditableLinkTreeHook";
+import { AddLinkDialog } from "../AddLinkDialog/AddLinkDialog";
+import { useState } from "react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+  TouchSensor,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { SortableLinkItem } from "../SortableLinkItem/SortableLinkItem";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const EditableLinkList: React.FC = () => {
   const { data } = useEditableLinkTree();
-  const { theme: mode } = useThemeHook();
-  const theme = useTheme();
+  const [openAddLinkDialog, setOpenAddLinkDialog] = useState(false);
 
   if (!data) return null;
 
-  const { links } = data;
+  const { links: initialLinks } = data;
 
-  const accentColors = theme.palette.custom.accents;
+  const [links, setLinks] = useState(structuredClone(initialLinks));
 
-  const getBackgroundColor = (background: keyof typeof catppuccinMocha) => {
-    return mode === "dark"
-      ? catppuccinMocha[background]
-      : catppuccinLatte[background];
-  };
+  const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    console.log("inside handleDragEnd");
+    console.log(active, over);
+
+    if (over && active.id !== over.id) {
+      setLinks((currentLinks) => {
+        const oldIndex = currentLinks.findIndex(
+          (item) => item.id === active.id
+        );
+        const newIndex = currentLinks.findIndex((item) => item.id === over.id);
+        return arrayMove(currentLinks, oldIndex, newIndex);
+      });
+    }
+  }
 
   return (
     <LinkListContainer>
-      {links.map((link, index) => (
-        <>
-          <Button
-            key={`link-button-${index}`}
-            variant="contained"
-            fullWidth
-            startIcon={link.icon ? <IconComponent icon={link.icon} /> : null}
-            sx={{
-              position: "relative",
-              backgroundColor: link.background
-                ? getBackgroundColor(
-                    link.background as keyof typeof catppuccinMocha
-                  )
-                : accentColors[index % accentColors.length],
-              color: theme.palette.custom.buttonText,
-              justifyContent: "flex-start",
-              "&:hover": {
-                transform: "none !important",
-              },
-              cursor: "default",
-            }}
-          >
-            {link.title}
-            <EditSectionContainer key={`edit-link-button-${index}`}>
-              <IconButton>
-                <EditIcon />
-              </IconButton>
-              <IconButton>
-                <DragHandleIcon />
-              </IconButton>
-            </EditSectionContainer>
-          </Button>
-        </>
-      ))}
-      <Button sx={{ width: "auto" }} startIcon={<AddIcon />}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={data.links.map((link) => link.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <StyledList>
+            {links.map((link, index) => (
+              <SortableLinkItem
+                key={`edit-link-button-${index}`}
+                index={index}
+                link={link}
+              >
+                <IconButton>
+                  <EditIcon />
+                </IconButton>
+              </SortableLinkItem>
+            ))}
+          </StyledList>
+        </SortableContext>
+      </DndContext>
+      <Button
+        sx={{ width: "auto" }}
+        startIcon={<AddIcon />}
+        onClick={() => setOpenAddLinkDialog(true)}
+      >
         Add link
       </Button>
+      <AddLinkDialog
+        open={openAddLinkDialog}
+        onClose={() => setOpenAddLinkDialog(false)}
+      />
     </LinkListContainer>
   );
 };

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Paper, type BoxProps, type PaperProps } from "@mui/material";
+import { Box, List, type BoxProps, type ListProps } from "@mui/material";
 
 export const LinkListContainer = styled((props: BoxProps) => (
   <Box
@@ -13,18 +13,13 @@ export const LinkListContainer = styled((props: BoxProps) => (
   />
 ))``;
 
-export const EditSectionContainer = styled(({ sx, ...props }: PaperProps) => (
-  <Paper
-    elevation={0}
+export const StyledList = styled((props: ListProps) => (
+  <List
     sx={{
-      position: "absolute",
-      right: "calc(-84px - 1rem)",
-      top: "50%",
-      transform: "translateY(-50%)",
+      width: "100%",
       display: "flex",
-      gap: 0.5,
-      p: 0.5,
-      ...sx,
+      flexDirection: "column",
+      gap: 1.5,
     }}
     {...props}
   />
