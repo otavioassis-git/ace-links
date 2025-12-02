@@ -1,5 +1,5 @@
-import { LinkTreeProvider } from "../hooks/LinkTreeHook";
-import { LinkTree } from "./LinkTree/LinkTree";
+import { LinkTreeProvider } from "../../hooks/LinkTreeHook";
+import { LinkTree } from "./LinkTree";
 
 export const LinkTreeWrapper: React.FC = () => {
   return (

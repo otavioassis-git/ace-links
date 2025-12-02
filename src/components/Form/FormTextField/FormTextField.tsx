@@ -1,4 +1,4 @@
-import { TextField, Typography, type TextFieldProps } from "@mui/material";
+import { TextField, type TextFieldProps } from "@mui/material";
 import { FormTextFieldContainer } from "./FormTextField.styles";
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
 
@@ -18,14 +18,10 @@ export const FormTextField: React.FC<FormTextFieldProps> = ({
     <FormTextFieldContainer>
       <TextField
         error={errors[id] !== undefined}
+        helperText={errors[id] ? errors[id].message?.toString() : undefined}
         {...register(id)}
         {...props}
       />
-      {errors[id] && (
-        <Typography color="error" variant="caption">
-          {errors[id].message as String}
-        </Typography>
-      )}
     </FormTextFieldContainer>
   );
 };

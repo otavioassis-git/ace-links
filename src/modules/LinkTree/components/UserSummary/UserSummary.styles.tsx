@@ -13,3 +13,11 @@ export const UserSummaryContainer = styled((props: BoxProps) => (
     {...props}
   />
 ))``;
+
+export const EditableUserSummaryContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+`;

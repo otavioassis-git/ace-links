@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box, type BoxProps } from "@mui/material";
 
-export const LinkTreeFooterContainer = styled((props: BoxProps) => (
+export const LinkTreeFooterContainer = styled(({ sx, ...props }: BoxProps) => (
   <Box
     sx={{
       position: "absolute",
@@ -9,6 +9,7 @@ export const LinkTreeFooterContainer = styled((props: BoxProps) => (
       left: "50%",
       transform: "translateX(-50%)",
       zIndex: 10,
+      ...sx,
     }}
     {...props}
   />
