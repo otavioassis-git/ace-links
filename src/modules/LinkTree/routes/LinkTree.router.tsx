@@ -1,11 +1,15 @@
-import { Navigate, Route } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import { LinkTreeWrapper } from "../pages/LinkTree/LinkTreeWrapper";
 import { EditableLinkTreeWrapper } from "../pages/EditableLinkTree/EditableLinkTreeWrapper";
 
-export const LinkTreeRouter = (
-  <>
-    <Route path="/user" element={<Navigate to="/" />} />
-    <Route path="/user/:username" element={<LinkTreeWrapper />} />
-    <Route path="/user/:username/edit" element={<EditableLinkTreeWrapper />} />
-  </>
-);
+// Main Route: /user
+
+export const LinkTreeRouter: React.FC = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/" />} />
+      <Route path="/:username" element={<LinkTreeWrapper />} />
+      <Route path="/:username/edit" element={<EditableLinkTreeWrapper />} />
+    </Routes>
+  );
+};
