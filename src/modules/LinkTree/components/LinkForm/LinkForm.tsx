@@ -13,7 +13,7 @@ import { FormContainer } from "../../../../components/Form/Form.styles";
 import { FormTextField } from "../../../../components/Form/FormTextField/FormTextField";
 import { ColorOptionPreview, LinkFormContainer } from "./LinkForm.styles";
 import * as MuiIcons from "@mui/icons-material";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { IconComponent } from "../../../../components/IconComponent/IconComponent";
 import { useForm } from "react-hook-form";
 import { catppuccinLatte, catppuccinMocha } from "../../../../theme";
@@ -22,6 +22,7 @@ import { useTheme } from "../../../../hooks/ThemeHook";
 type LinkFormProps = {
   link: Link;
   setLink: (link: Link) => void;
+  setIsError: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const registerSchema = z.object({
@@ -31,7 +32,11 @@ export const registerSchema = z.object({
 
 export type TRegisterSchema = z.infer<typeof registerSchema>;
 
-export const LinkForm: React.FC<LinkFormProps> = ({ link, setLink }) => {
+export const LinkForm: React.FC<LinkFormProps> = ({
+  link,
+  setLink,
+  setIsError,
+}) => {
   const { theme } = useTheme();
   const allIconNames = Object.keys(MuiIcons) as (keyof typeof MuiIcons)[];
   const allColors = Object.keys(
@@ -72,6 +77,14 @@ export const LinkForm: React.FC<LinkFormProps> = ({ link, setLink }) => {
     defaultValues: link,
     shouldFocusError: false,
   });
+
+  useEffect(() => {
+    setIsError(Object.keys(errors).length !== 0);
+  }, [errors]);
+
+  useEffect(() => {
+    setIsError(true);
+  }, []);
 
   const getBackgroundColor = (background: keyof typeof catppuccinMocha) => {
     return theme === "dark"

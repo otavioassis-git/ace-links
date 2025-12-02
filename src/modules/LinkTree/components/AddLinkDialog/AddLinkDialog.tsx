@@ -29,6 +29,7 @@ export const AddLinkDialog: React.FC<AddLinkDialogProps> = ({
   onClose,
 }) => {
   const [link, setLink] = useState<Link>({ ...initialLink });
+  const [isError, setIsError] = useState(true);
   const { setData } = useEditableLinkTree();
 
   useEffect(() => {
@@ -50,7 +51,7 @@ export const AddLinkDialog: React.FC<AddLinkDialogProps> = ({
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Add Link</DialogTitle>
       <DialogContent>
-        <LinkForm link={link} setLink={setLink} />
+        <LinkForm link={link} setLink={setLink} setIsError={setIsError} />
       </DialogContent>
       <DialogActions>
         <Button
@@ -67,6 +68,7 @@ export const AddLinkDialog: React.FC<AddLinkDialogProps> = ({
         <Button
           variant="contained"
           onClick={onAdd}
+          disabled={isError}
           sx={{
             "&:hover": {
               transform: "none !important",

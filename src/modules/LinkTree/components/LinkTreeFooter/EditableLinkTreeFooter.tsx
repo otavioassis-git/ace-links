@@ -12,7 +12,7 @@ export const EditableLinkTreeFooter: React.FC = () => {
   const navigate = useNavigate();
   const { setToast } = useToast();
   const { user } = useLogin();
-  const { data } = useEditableLinkTree();
+  const { data, isError } = useEditableLinkTree();
 
   if (!user || !data) return null;
 
@@ -52,6 +52,7 @@ export const EditableLinkTreeFooter: React.FC = () => {
         variant="contained"
         loading={isLoading}
         onClick={() => saveChanges()}
+        disabled={isError}
       >
         Save changes
       </Button>

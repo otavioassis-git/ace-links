@@ -6,6 +6,7 @@ import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormTextField } from "../../../../components/Form/FormTextField/FormTextField";
+import { useEffect } from "react";
 
 const registerSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -16,7 +17,7 @@ export type TRegisterSchema = z.infer<typeof registerSchema>;
 
 export const EditableUserSummary: React.FC = () => {
   const theme = useTheme();
-  const { data, setData } = useEditableLinkTree();
+  const { data, setData, setErrors } = useEditableLinkTree();
 
   if (!data) return null;
 
@@ -29,6 +30,10 @@ export const EditableUserSummary: React.FC = () => {
     defaultValues: data,
     shouldFocusError: false,
   });
+
+  useEffect(() => {
+    setErrors(Object.keys(errors).length !== 0);
+  }, [errors]);
 
   const onChange = (data: TRegisterSchema) => {
     setData((oldData) => {
